@@ -8,23 +8,27 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
- <div class="video-container">
-  <video src="https://drive.google.com/uc?export=download&id=1bt6ut734m0aCdGA_q0EcKxHFGTXnsuF-" class="video" width="700"></video>
-  <div class="video-controls video-controls-visibility--visible">
-    <button class="control-item play-and-pause-video fa fa-play" title="Play or Pause"></button>
-    <div class="progress-video-container">
-      <input type="range" class="control-item progress-video" min="0.0" value="0.00" step="any" max="100.00">
-      <span class="progress-time time-video">00:00</span>
-      <span class="duration-time time-video">00:00</span>
+ <div id="intro" class="sc-section--intro">
+  <div class="intro-inner">
+    <div id="logo">
+      <!--LOGO URL-->
+      <img src="https://vyexample.com/cbroughton/vidyard-horizontal-white.svg">
     </div>
-    <div class="audio-video-container">
-      <button class="control-item volume-video fa fa-volume-up" title="Volume"></button>
-      <input type="range" class="control-item slide-volume-video" min="0" value="1" step="any" max="1">
-    </div>
-    <button class="control-item fullscreen-video fa fa-expand"></button>
+    <h2 class="intro-headline">
+      <!--NAME-->
+      <a href="mailto:sales@vidyard.com">FIRSTNAME LASTNAME</a>
+    </h2>
+    <p class="intro-tagline">
+      <!--ROLE/DEPT/COMAPNY-->
+      <span class="intro-tagline-date">Role, Dept</span>Company
+    </p>
+    <!--BUTTON-->
+    <a href="https://knowledge.vidyard.com" target="_blank"><button class="button light pulse">Book a meeting with me!</button></a>
   </div>
 </div>
-
+<div class="overlay"></div>
+<iframe class="intro-video" src="//play.vidyard.com/Gj6JwoneBFVr3xTuvifVWD/type/background?preview=1" scrolling="no" frameborder="0" allowtransparency="true" allowfullscreen="true"></iframe>
+</div>
 <script src="js/script.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/rocket-loader@2.4.0/build/js/loader.min.js"></script>
