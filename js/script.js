@@ -1,105 +1,60 @@
-(function(){
+document.addEventListener('DOMContentLoaded', () => {
+const controls = ['play-large', // The large play button in the center
+    //'restart', // Restart playback
+    'rewind', // Rewind by the seek time (default 10 seconds)
+    'play', // Play/pause playback
+    'fast-forward', // Fast forward by the seek time (default 10 seconds)
+    'progress', // The progress bar and scrubber for playback and buffering
+    'current-time', // The current time of playback
+    'duration', // The full duration of the media
+    'mute', // Toggle mute
+    'volume', // Volume control
+    'captions', // Toggle captions
+    'settings', // Settings menu
+    'pip', // Picture-in-picture (currently Safari only)
+    'airplay', // Airplay (currently Safari only)
+    //'download', // Show a download button with a link to either the current source or a custom URL you specify in your options
+    'fullscreen', // Toggle fullscreen
+                 ];
+const source = 'https://dyjmyiv3bp2ez.cloudfront.net/pub-iotv9kanmo6oiq/liveabr/playlist.m3u8';
+const video = document.querySelector('video');       
+// const player = Plyr.setup('video', {controls, captions: {active: false, update: false, language: 'auto'}});
+const defaultOptions = {controls,captions: {active: true, update: false, language: 'auto'}};
 
-  var d = document,
-      strType = typeof '',
-      defaultSelector = '.insert-video';
+  if (Hls.isSupported()) {
+   
+    const hls = new Hls();
+    hls.loadSource(source);
+    hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
 
-  function each(obj,callback) {
-    var length = obj.length,
-        i = 0;
+      // Transform available levels into an array of integers (height values).
+      const availableQualities = hls.levels.map((l) => l.height)
 
-    for ( ; i < length; i++ ) {
-      if ( callback.call( obj[ i ], i, obj[ i ] ) === false ) { break; }
-    }
-  }
+      // Add new qualities to option
+      defaultOptions.quality = {
+        default: availableQualities[0],
+        options: availableQualities,
+        // this ensures Plyr to use Hls to update quality level
+        forced: true,        
+        onChange: (e) => updateQuality(e),
+      }
 
-  function createVideo(vidAttributes){
-    var video = d.createElement('video'),
-        sources = vidAttributes.sources;
-
-    if ( !sources || vidAttributes.src ) { return false; }
-    delete vidAttributes.sources;
-
-    for (var attr in vidAttributes) { video.setAttribute(attr,vidAttributes[attr]); }
-
-    sources = JSON.parse(sources);
-
-    each(sources,function(){
-      var source = d.createElement('source');
-      for (var attr in this) { source.setAttribute(attr,this[attr]); }
-      video.appendChild(source);
+      // Initialize here
+      const player = new Plyr(video, defaultOptions);
     });
-
-    return video;
+    hls.attachMedia(video);
+    window.hls = hls;
+  } else {
+ 
+    const player = new Plyr(video, defaultOptions);
   }
 
-
-  function insertVideos(selector,opts){
-
-    if ( arguments.length === 1 ) {
-      opts = selector || {};
-      selector = defaultSelector;
-    } else {
-      opts = opts || {};
-      selector = selector || defaultSelector;
-    }
-
-    var elems = (
-          selector.nodeType ? [selector] :
-          typeof selector === strType ? d.querySelectorAll(selector) : selector
-        ),
-        videos = [];
-
-    if ( !elems ) { return false; }
-
-    each(elems,function(i,elem){
-
-      if ( elem && elem.className.indexOf(' insert-video--done') < 0 ) {
-
-        var dataAttr = elem.dataset || false,
-            attr, video;
-
-        if ( !dataAttr ) {
-          attr = elem.attributes;
-
-          each(attr,function(i,el){
-            var attrName = this.name.replace('data-','');
-            if ( attrName.length < this.name.length ) {
-              dataAttr[attrName] = this.value;
-            }
-          });
-
-        }
-
-        if ( opts.condition !== false ) {
-          video = createVideo(dataAttr);
-        }
-
-        if ( video ) {
-          videos.push(video);
-          elem.innerHTML = '';
-          elem.className += ' insert-video--done';
-          elem.appendChild(video);
-        } else {
-          elem.className += ' insert-video--fallback';
-          elem.innerHTML = ( dataAttr.fallback ? dataAttr.fallback : opts.fallback ? opts.fallback : dataAttr.poster ? '<img src="' + dataAttr.poster + '" />' : '' );
-        }
-
-
+  function updateQuality(newQuality) {
+    window.hls.levels.forEach((level, levelIndex) => {
+      if (level.height === newQuality) {
+        console.log("Found quality match with " + newQuality);
+        window.hls.currentLevel = levelIndex;
       }
     });
-
-    return videos;
   }
-
-  window.insertVideos = insertVideos;
-
-}());
-
-insertVideos({
-  condition: Modernizr.video
 });
-
-insertVideos('.fail-video',{
-  condition: false
-})
