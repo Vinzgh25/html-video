@@ -1,1 +1,7 @@
-
+.container {
+	margin: 95px auto;
+	width: 720px;
+}
+video {
+	width: 100%;
+}
