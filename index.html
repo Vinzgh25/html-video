@@ -9,27 +9,49 @@
     <script src="https://fcasfs-official.zohosites.com/playervid.js"></script>
 </head>
 <body>
+<p>Only want to insert HTML5 video if certain conditions are met? Say you're using a video as an animated background, but iOS isn't going to play that video inline. Or you may need to only control a video in Javascript. Why waste the users bandwidth loading a video that can't be used?</p>
 
+<p>View the source to see that there are no inline <code>&lt;video&gt;</code> or <code>&lt;img&gt;</code> elements. They are all added via Javascript so you have greater control over when & where.</p>
 
-<input type="file" id="inp_sle" accept="video/*,audio/*" /><br />
-<button onclick='playevid_setmode_plalist("pl-vide");'>Mode Playlist</button><button onclick='playevid_setmode_normal("pl-vide");'>Mode Normal</button>
-<br /><button onclick='set_player_settings().Mini("pl-vide");'>Mini Player</button>
-<br />
-<button onclick='set_player_settings().Button_Light(true);'>Show Visible Button Light</button><button onclick='set_player_settings().Button_Light(false);'>Disable Button Light</button>
-<br />
-<button onclick='set_player_settings().Scroll_to_MiniPlayer("pl-vide");'>Scroll to Mini Player</button> <button onclick='set_player_settings().Scroll_to_MiniPlayer_disable("pl-vide");'>Disable Scroll to Mini Player</button>
-<br />
-<button onclick='set_fsplayer_settings("pl-vide").visible_pl(true);'>Show Visible Player</button> <button onclick='set_fsplayer_settings("pl-vide").visible_pl(false);'>Visible Hidden Player</button>
-<br /><br />
+<div class="insert-video" data-controls="controls" data-mute="mute" data-preload="auto" data-sources='[{"src":"https://kp3d-my.sharepoint.com/personal/ryoo_kp3d_onmicrosoft_com/_layouts/15/download.aspx?share=EXo6jEIbzSRNqgAf61FNDRsBf4RFv1VH3ddlsGQhCn-Epg","type":"video/webm"},{"src":"https://kp3d-my.sharepoint.com/personal/ryoo_kp3d_onmicrosoft_com/_layouts/15/download.aspx?share=EXo6jEIbzSRNqgAf61FNDRsBf4RFv1VH3ddlsGQhCn-Epg","type":"video/ogg"},{"src":"https://kp3d-my.sharepoint.com/personal/ryoo_kp3d_onmicrosoft_com/_layouts/15/download.aspx?share=EXo6jEIbzSRNqgAf61FNDRsBf4RFv1VH3ddlsGQhCn-Epg","type":"video/mp4"},{"src":"https://kp3d-my.sharepoint.com/personal/ryoo_kp3d_onmicrosoft_com/_layouts/15/download.aspx?share=EXo6jEIbzSRNqgAf61FNDRsBf4RFv1VH3ddlsGQhCn-Epg","type":"video/3gp"}]' data-srcset='[{"src":"https://kp3d-my.sharepoint.com/personal/ryoo_kp3d_onmicrosoft_com/_layouts/15/download.aspx?share=EXo6jEIbzSRNqgAf61FNDRsBf4RFv1VH3ddlsGQhCn-Epg","type":"video/mp4"},{"src":"https://kp3d-my.sharepoint.com/personal/ryoo_kp3d_onmicrosoft_com/_layouts/15/download.aspx?share=EXo6jEIbzSRNqgAf61FNDRsBf4RFv1VH3ddlsGQhCn-Epg","type":"video/webm"},{"src":"https://kp3d-my.sharepoint.com/personal/ryoo_kp3d_onmicrosoft_com/_layouts/15/download.aspx?share=EXo6jEIbzSRNqgAf61FNDRsBf4RFv1VH3ddlsGQhCn-Epg","type":"video/ogg"}] 1x, [{"src":"http://techslides.com/demos/sample-videos/small.webm","type":"video/webm"},{"src":"http://techslides.com/demos/sample-videos/small.ogv","type":"video/ogg"},{"src":"http://techslides.com/demos/sample-videos/small.mp4","type":"video/mp4"},{"src":"http://techslides.com/demos/sample-videos/small.3gp","type":"video/3gp"}] 2x'>
+  <noscript>Fallback for no Javascript. You could link to the video file, or embed the video anyway.</noscript>
+</div>
 
-<div id="pl-vide"></div>
+<hr />
 
-<br /><br /><button onclick='set_player_settings().version_update();'>Version Update</button>
-<button onclick='set_player_settings().delete_version_update();'>Delete - Version Update</button><br />
+<h1>Video to Placeholder Converter</h1>
 
-<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+<p>Paste your <code>&lt;video&gt;</code> or sources here for a quick conversion to the <code>insert-video</code> placeholder format.</p>
+
+<textarea id="source-convert">
+<video controls="controls" mute="mute" preload="auto">
+  <source src="http://techslides.com/demos/sample-videos/small.webm" type="video/webm" /> 
+  <source src="http://techslides.com/demos/sample-videos/small.ogv" type="video/ogg" /> 
+  <source src="http://techslides.com/demos/sample-videos/small.mp4" type="video/mp4" />
+  <source src="http://techslides.com/demos/sample-videos/small.3gp" type="video/3gp" />
+</video>
+</textarea>
+<pre id="source-convert-output"></pre>
+
+<hr />
+
+<h1>Fallbacks</h1>
+
+<p>This <code>insertVideos</code> condition is set to <code>false</code> so the <code>data-fallback</code> attribute will be inserted instead.</p>
+
+<div class="fail-video" data-controls="controls" data-mute="mute" data-preload="auto" data-fallback='<img src="http://lorempixel.com/400/225/animals/7/" alt="" />'>
+</div>
+
+<p>This insert video is going to fail so the <code>data-poster</code> attribute will be inserted as an image since there isn't a <code>data-fallback</code> attribute or any fallback set in the <code>insertVideos()</code> call.</p>
+
+<div class="fail-video" data-controls="controls" data-mute="mute" data-preload="auto" data-poster='http://lorempixel.com/400/225/nature/3/'>
+  test.
+  <!--  -->
+</div>
+    
 <script src="js/script.js"></script>
-
+<script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+<script src="https://codepen.io/shshaw/pen/KpGWmd.js"></script>
 </body>
 </html>
 
