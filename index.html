@@ -8,55 +8,47 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-<div class="box text-center" dir="ltr">
-  <h4 class="display-2 text-center main">Neu player</h4>
-  <div class="neo-video-player" id="popout-video-player">
-
-    <div class="video-control-part">
-      <div class="video-control-general-part">
-        <div class="play-btn video-neu-btn"></div>
-        <div class="video-neu-btn drop-btn">
-          <div class="box-sound">
-            <div class="volume">
-              <div class="bar-volume"></div>
-            </div>
-          </div>
-          <div class="sound-btn video-neu-btn"></div>
-        </div>
-      </div>
-      <div class="video-control-bar-part">
-        <div class="bar-bg">
-          <div class="bar-progress">
-            <div class="bar-time">
-              <div class="bar-time-box"><span class="current">00:00</span><span> / </span><span class="duration">00:00</span></div>
-              <div class="bar-pin"></div>
-            </div>
-          </div>
-          <div class="bar-buffer"></div>
-        </div>
-      </div>
-      <div class="video-control-nav-part">
-        <a id="download-video" href="" rel="nofollow" download>
-          <div class="download-btn video-neu-btn"></div>
-        </a>
-        <div class="setting-btn video-neu-btn">
-          <div class="fastFwd-box">
-            <input class="btn fastFwd" type="button" value="Speed : 1x">
-          </div>
-        </div>
-        <div class="fullscreen-btn video-neu-btn"></div>
-      </div>
-    </div>
-
-    <video class="video-element" id="video-element" preload="auto">
-      <source src="https://kp3d-my.sharepoint.com/personal/ryoo_kp3d_onmicrosoft_com/_layouts/15/download.aspx?share=EXo6jEIbzSRNqgAf61FNDRsBf4RFv1VH3ddlsGQhCn-Epg">
-    </video>
-
-  </div>
-
-  <!--thank-->
-  <p class="mb-0 mt-3">Really thank <a href="https://codepen.io/JackT2">"Jack Thomas"</a> for <a href="https://codepen.io/JackT2/pen/PKvVoK">"Custom Video Controls - jQuery"</a></p>
-  <h6>Designed by <a href="https://codepen.io/47vigen">47vigen</a></h6>
+<div class='video'>
+  <script src="https://use.fontawesome.com/20603b964f.js"></script>
+  <script type="text/javascript" src="https://content.jwplatform.com/libraries/LJ361JYj.js"></script>
+  <script type="text/javascript">
+    jwplayer.key = 'ypdL3Acgwp4Uh2/LDE9dYh3W/EPwDMuA2yid4ytssfI=';
+    // jwplayer.key = 'ITWMv7t88JGzI0xPwW8I0+LveiXX9SWbfdmt0ArUSyc=';
+  </script>
+  <div id="myElement"></div>
+  <script type="text/javascript">
+    jwplayer("myElement").setup({
+      image: "https://images.pexels.com/photos/1001682/pexels-photo-1001682.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      //aspectratio: "16:9",
+      // width: '100%',
+      height: window.innerHeight,
+      autostart: false,
+      file: 'https://vjs.zencdn.net/v/oceans.mp4',
+      title: 'Oceans',
+      description: 'etoski on Codepen',
+      aboutlink: 'https://www.jwplayer.com/',
+      tracks: [{
+        "file": "<?php echo $cc; ?>",
+        "label": "Indonesia",
+        "kind": "captions",
+        "default": "true"
+      }],
+      captions: {
+        color: '#ffb800',
+        fontSize: 30,
+        backgroundOpacity: 0
+      },
+      sharing: {
+        sites: ['facebook', 'twitter', 'tumblr', 'googleplus', {
+          icon: '//support-static.jwplayer.com/images/awesome.svg',
+          src: 'http://www.jwplayer.com/?',
+          label: 'jwplayer'
+        }],
+        code: encodeURI("<iframe src='<?php echo $sharing;?>' width='480' height='320'></iframe>"),
+        link: "<?php echo $sharing;?>"
+      }
+    })
+  </script>
 </div>
 <script src="js/script.js"></script>
 
