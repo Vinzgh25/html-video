@@ -1,124 +1,105 @@
-var rbd_playlisttbl = [
-  {
-    file:
-      "https://raw.githubusercontent.com/fcasfs-oficial-website/Fcas_FS/master/Rebelde Video 26.mp4",
-    title: "Rebelde Vídeo Clipe",
-    poster:
-      "https://raw.githubusercontent.com/FCASfs/server/master/rebelde-poster.jpg"
-  },
-  {
-    file:
-      "https://raw.githubusercontent.com/fcasfs-oficial-website/Fcas_FS/master/RBD - Nuestro Amor (CD Completo).mp3",
-    title: "RBD - Nuestro Amor (CD Completo)",
-    poster: "https://raw.githubusercontent.com/FCASfs/server/master/rbd_1.jpg"
-  },
-  {
-    file:
-      "https://raw.githubusercontent.com/fcasfs-oficial-website/Fcas_FS/master/RBD - Rebelde (CD Completo - Version Mexicana).mp3",
-    title: "RBD - Rebelde (CD Completo - Version Mexicana)",
-    poster: "https://raw.githubusercontent.com/FCASfs/server/master/rbd_1.jpg"
+(function(){
+
+  var d = document,
+      strType = typeof '',
+      defaultSelector = '.insert-video';
+
+  function each(obj,callback) {
+    var length = obj.length,
+        i = 0;
+
+    for ( ; i < length; i++ ) {
+      if ( callback.call( obj[ i ], i, obj[ i ] ) === false ) { break; }
+    }
   }
-];
 
-function mdpl_handleFileSelect(evt) {
-  playevid_setmode_file(
-    "pl-vide",
-    create_mdpl_file(evt).create_url(0),
-    create_mdpl_file(evt).get_name(0)
-  );
-}
+  function createVideo(vidAttributes){
+    var video = d.createElement('video'),
+        sources = vidAttributes.sources;
 
-function playevid_setmode_file(ob, f, t) {
-  set_player_IconsColor("#1874CD");
+    if ( !sources || vidAttributes.src ) { return false; }
+    delete vidAttributes.sources;
 
-  set_file_videoplayer(ob, f, t, "", "", "", "", "true");
-  set_player_settings().size(ob, "80%");
-  set_player_settings().position.center(ob);
-  set_player_settings().version_update();
+    for (var attr in vidAttributes) { video.setAttribute(attr,vidAttributes[attr]); }
 
-  /*set_icon_controls("");*/
+    sources = JSON.parse(sources);
 
-  var app_plconfig_playlist = { search: false, autoplay: false };
-  var app_plconfig = {
-    Playlist: app_plconfig_playlist,
-    Controls: true,
-    Title: true
-  };
-  var controls_settings_buttons = {
-    Icon: true,
-    Speed_Control: true,
-    Stop: true,
-    Download: false
-  };
-  set_player_controls_settings(controls_settings_buttons);
-  set_player_config(app_plconfig);
-  set_player_settings().Button_Light(true);
-}
-function playevid_setmode_normal(ob) {
-  var app_plconfig_playlist = { autoplay: false };
-  var app_plconfig = {
-    Playlist: app_plconfig_playlist,
-    Controls: true,
-    Title: true
-  };
-  var controls_settings_buttons = {
-    Icon: true,
-    Speed_Control: true,
-    Stop: true,
-    Download: false
-  };
-  set_player_IconsColor("#1874CD");
+    each(sources,function(){
+      var source = d.createElement('source');
+      for (var attr in this) { source.setAttribute(attr,this[attr]); }
+      video.appendChild(source);
+    });
 
-  set_file_videoplayer(
-    ob,
-    "https://raw.githubusercontent.com/fcasfs-oficial-website/Fcas_FS/master/Rebelde Video 26.mp4",
-    "Rebelde Vídeo Clipe",
-    "",
-    "",
-    "",
-    "https://raw.githubusercontent.com/FCASfs/server/master/rebelde-poster.jpg",
-    "true"
-  );
-  set_icon_controls(
-    "https://raw.githubusercontent.com/FCASfs/server/master/Rebelde_logo.png"
-  );
-  set_player_settings().size("pl-vide", "80%");
-  set_player_settings().position.center("pl-vide");
-  set_player_settings().version_update();
-  set_player_settings().Button_Light(true);
-  set_player_controls_settings(controls_settings_buttons);
-  set_player_config(app_plconfig);
-}
+    return video;
+  }
 
-function playevid_setmode_plalist(ob) {
-  var app_plconfig_playlist = { search: true, autoplay: false };
-  var app_plconfig = {
-    Playlist: app_plconfig_playlist,
-    Controls: true,
-    Title: true
-  };
-  var controls_settings_buttons = {
-    Icon: true,
-    Speed_Control: true,
-    Stop: true,
-    Download: false
-  };
-  set_player_IconsColor("#1874CD");
 
-  set_playlist_videoplayer("pl-vide", rbd_playlisttbl, "");
-  set_icon_controls(
-    "https://raw.githubusercontent.com/FCASfs/server/master/Rebelde_logo.png"
-  );
-  set_player_settings().size("pl-vide", "80%");
-  set_player_settings().position.center("pl-vide");
-  set_player_settings().version_update();
-  set_player_settings().Button_Light(true);
-  set_player_controls_settings(controls_settings_buttons);
-  set_player_config(app_plconfig);
-}
+  function insertVideos(selector,opts){
 
-document.getElementById("inp_sle").onchange = function () {
-  mdpl_handleFileSelect(this);
-};
+    if ( arguments.length === 1 ) {
+      opts = selector || {};
+      selector = defaultSelector;
+    } else {
+      opts = opts || {};
+      selector = selector || defaultSelector;
+    }
 
-playevid_setmode_plalist("pl-vide");
+    var elems = (
+          selector.nodeType ? [selector] :
+          typeof selector === strType ? d.querySelectorAll(selector) : selector
+        ),
+        videos = [];
+
+    if ( !elems ) { return false; }
+
+    each(elems,function(i,elem){
+
+      if ( elem && elem.className.indexOf(' insert-video--done') < 0 ) {
+
+        var dataAttr = elem.dataset || false,
+            attr, video;
+
+        if ( !dataAttr ) {
+          attr = elem.attributes;
+
+          each(attr,function(i,el){
+            var attrName = this.name.replace('data-','');
+            if ( attrName.length < this.name.length ) {
+              dataAttr[attrName] = this.value;
+            }
+          });
+
+        }
+
+        if ( opts.condition !== false ) {
+          video = createVideo(dataAttr);
+        }
+
+        if ( video ) {
+          videos.push(video);
+          elem.innerHTML = '';
+          elem.className += ' insert-video--done';
+          elem.appendChild(video);
+        } else {
+          elem.className += ' insert-video--fallback';
+          elem.innerHTML = ( dataAttr.fallback ? dataAttr.fallback : opts.fallback ? opts.fallback : dataAttr.poster ? '<img src="' + dataAttr.poster + '" />' : '' );
+        }
+
+
+      }
+    });
+
+    return videos;
+  }
+
+  window.insertVideos = insertVideos;
+
+}());
+
+insertVideos({
+  condition: Modernizr.video
+});
+
+insertVideos('.fail-video',{
+  condition: false
+})
