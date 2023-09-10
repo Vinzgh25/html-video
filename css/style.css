@@ -1,185 +1,244 @@
-*,
-*::before,
-*::after {
-  margin: 0;
-  padding: 0;
-  border: none;
-  box-sizing: border-box;
-}
-:root {
-  --colorBtnPrincipal: #d2d2d2;
-  --rangeBg: #333;
-}
-video {
-  max-width: 100%;
-}
-button {
-  background: none;
-  color: var(--colorBtnPrincipal);
-  outline: none;
-}
+#logo img {
+    width: 30%;
+  }
 
-button,
-input {
-  cursor: pointer;
-}
-
-/*              VIDEO CONTAINER               */
-.video-container {
-  position: relative;
-  max-width: 700px;
-  height: auto;
-}
-.video {
-  max-width: 100%;
-  border-radius: 5px;
-}
-.video::-webkit-media-controls,
-.video::-webkit-media-controls-enclosure {
-  display: none !important;
-}
-/*              VIDEO CONTROLS               */
-.video:-moz-full-screen + .video-controls {
-  bottom: 0;
-}
-.video:-webkit-full-screen + .video-controls {
-  bottom: 0;
-}
-
-.video-controls {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  position: absolute;
-  bottom: 4px;
-  left: 0;
-  z-index: 2147483647;
-  padding: 10px;
-  width: 100%;
-  border-radius: 0 0 5px 5px;
-  background-color: rgba(0, 0, 0, 0.3);
-}
-.play-and-pause-video {
-  padding: 8px 12px;
-  width: 40px;
-  box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
-  border-radius: 4px;
-  background-color: crimson;
-}
-
-/*              VIDEO PROGRESS               */
-.progress-video-container {
-  display: flex;
-  align-items: center;
-  position: relative;
-  width: 65%;
-}
-.time-video {
-  font-family: sans-serif;
-  font-size: 16px;
-  font-weight: bold;
-  color: var(--colorBtnPrincipal);
-}
-.progress-time {
-  order: -1;
-}
-
-.progress-video,
-.slide-volume-video {
-  background-image: linear-gradient(crimson, crimson);
-  background-repeat: no-repeat;
-  background-size: 0% 100%;
-}
-.progress-video,
-.slide-volume-video {
-  width: 100%;
-  height: 10px;
-  margin: 0 10px;
-  -webkit-appearance: none;
-  border-radius: 4px;
-  outline: none;
-  background-color: var(--rangeBg);
-}
-
-/*            ESTILOS COMUNS              */
-.progress-video::-moz-range-thumb,
-.slide-volume-video::-moz-range-thumb {
-  width: 15px;
-  height: 15px;
-  background-color: var(--colorBtnPrincipal);
-  border: none;
-}
-.slide-volume-video::-webkit-slider-thumb,
-.progress-video::-webkit-slider-thumb {
-  width: 15px;
-  height: 15px;
-  -webkit-appearance: none;
-  border-radius: 50%;
-  background-color: var(--colorBtnPrincipal);
-}
-.progress-video::-moz-range-track,
-.slide-volume-video::-moz-range-track {
-  height: 0;
-  background-color: var(--rangeBg);
-  border-radius: 4px;
-}
-.control-item {
-  font-size: 18px;
-}
-
-/*              VIDEO AUDIO               */
-.slide-volume-video {
-  width: 60px;
-  display: none;
-  transition: display 0.2s ease-out;
-  margin-left: -2px;
-}
-
-.audio-video-container:hover > .slide-volume-video {
-  display: inline-block;
-}
-
-/*             MEDIAS QUERIES*            */
-@media (max-width: 320px) {
-  .control-item {
-    font-size: 10px;
-  }
-  .progress-video-container {
-    width: 60%;
-  }
-  .slide-volume-video {
-    width: 40px;
-  }
-  .time-video {
-    font-size: 10px;
-  }
-}
-@media (max-width: 480px) {
-  .video-controls {
-    justify-content: space-around;
-    padding: 10px 0px;
-  }
-  .control-item {
-    font-size: 16px;
-  }
-  .time-video {
-    font-size: 12px;
-  }
-  .play-and-pause-video {
-    width: 15px;
-    padding: 0;
-    background: none;
-    box-shadow: none;
-  }
-  .progress-video {
-    margin: 0 3px;
-  }
-  .slide-volume-video {
-    width: 45px;
-  }
-}
-@media (min-width: 1200) {
-  .video:-webkit-full-screen + .video-controls > .progress-video-container {
+  /*Adjust Background Colour*/
+  .overlay {
+    background: #000;
+    height: 100%;
     width: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 2;
+    opacity: 0.7;
   }
-}
+
+.intro-headline {
+    color: #FFFFFF;
+    font-family: "LL Circular", sans-serif;
+    font-size: 20px;
+    font-weight: 300;
+    margin-top: 20px;
+  }
+
+  .intro-tagline {
+    font-size: 5vw;
+    margin: 7px 0 !important;
+  }
+
+  .intro-tagline {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 13.6px;
+    margin: 5px 0;
+  }
+
+  .intro-headline,
+  .intro-tagline {
+    letter-spacing: 2px;
+    margin-bottom: 0;
+    text-transform: uppercase;
+  }
+
+  .intro-tagline-date::after {
+    content: "|";
+    margin: 0 15px;
+  }
+
+  .intro-inner {
+    z-index: 3 !important;
+    transform: translateZ(0);
+    display: block;
+    position: relative;
+    text-align: center;
+    z-index: 2;
+    margin-top: 8%;
+  }
+
+  div {
+    display: block;
+  }
+
+  body {
+    background-color: #fff;
+    font-family: "LL Circular", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+  }
+
+  .intro-video {
+    min-height: 100%;
+    max-height: 100%;
+    height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%) translateZ(0);
+    width: 100%;
+    object-fit: cover;
+    overflow: hidden;
+  }
+
+  #js-header-register {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 99999;
+    transform: translate(-50%, 250%);
+    text-decoration: none;
+    border-radius: 4px;
+    display: block;
+  }
+
+  .hide {
+    display: none;
+  }
+
+  .intro-headline,
+  a {
+    font-size: 7vw;
+    text-decoration: none;
+    color: white;
+    margin-top: 2% !important;
+  }
+
+  .intro-tagline {
+    font-size: 5vw;
+    margin: 7px 0 !important;
+  }
+
+  .sc-section--intro {
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+
+  a.button.light,
+  button.button.light {
+    border-color: #313132;
+    color: #313132;
+  }
+
+  a.button,
+  button.button {
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    background-image: none;
+    white-space: nowrap;
+    padding: 6px 12px;
+    line-height: 1.42857;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border-radius: 40px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 12px 20px;
+    text-transform: uppercase;
+    text-decoration: none;
+    background-color: white;
+    border: 1px solid;
+    transition: .3s ease all;
+    -webkit-transition: all 0.5s ease-out;
+    -moz-transition: all 0.5s ease-out;
+    -ms-transition: all 0.5s ease-out;
+    -o-transition: all 0.5s ease-out;
+    transition: all 0.5s ease-out;
+  }
+
+  input,
+  button,
+  select,
+  textarea {
+    margin: 0;
+  }
+
+  a.button.light:hover,
+  a.button.light:focus,
+  button.button.light:hover,
+  button.button.light:focus {
+    background-color: #313132;
+    color: #fff;
+    text-decoration: none -webkit-transform:scale(1.1);
+    -moz-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    -o-transform: scale(1.1);
+    transform: scale(1.1);
+  }
+
+  @keyframes pulse_animation {
+    0% {
+      transform: scale(1);
+    }
+
+    10% {
+      transform: scale(1);
+    }
+
+    20% {
+      transform: scale(1);
+    }
+
+    30% {
+      transform: scale(1);
+    }
+
+    40% {
+      transform: scale(1.05);
+    }
+
+    50% {
+      transform: scale(1);
+    }
+
+    60% {
+      transform: scale(1);
+    }
+
+    70% {
+      transform: scale(1.05);
+    }
+
+    80% {
+      transform: scale(1);
+    }
+
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .pulse {
+    animation-name: pulse_animation;
+    animation-duration: 4000ms;
+    transform-origin: 70% 70%;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+  }
+
+  @media only screen and (max-width: 600px) {
+
+    button,
+    a.button.light:hover,
+    a.button.light:focus,
+    button.button.light:hover,
+    button.button.light:focus {
+      transform: scale(0.7);
+    }
+  }
+
+  .vyLoad {
+    transform: scale(0.85);
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -ms-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+  }
