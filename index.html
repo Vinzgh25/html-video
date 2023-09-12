@@ -5,17 +5,88 @@
   <title>AMP test</title>
   <link rel="canonical" href="amps.html" >
   <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.4.3/hls.min.js"></script>
+<script src="https://vjs.zencdn.net/8.3.0/video.min.js"></script>
+<script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
+<link href="https://vjs.zencdn.net/8.3.0/video-js.css" rel="stylesheet" />
+<link href="https://cdn.plyr.io/3.7.8/plyr.css" rel="stylesheet" />
+<style>
+  body {
+  background-color: #ffd868;
+  display: flex;
+  justify-content: space-around;
+  padding: 1em;
+  flex-wrap: wrap;
+}
 
+.player {
+  flex-shrink: 0;
+  margin: 1em;
+  max-height: 240px;
+  max-width: 426px;
+}
+
+#player-video-js {
+  max-height: 240px;
+  max-width: 426px;
+}
+</style>
 </head>
 <body>
   
-<mux-player
-  stream-type="on-demand"
-  playback-id="EcHgOK9coz5K4rjSwOkoE7Y7O01201YMIC200RI6lNxnhs"
-  metadata-video-title="Test VOD"
-  metadata-viewer-user-id="user-id-007"
-></mux-player>
+<!-- TODO: Replace Plyr with https://github.com/vidstack/player -->
+<div>video-js<br />
+  <div class="player">
+  <video-js id="player-video-js" class="vjs-default-skin" crossOrigin="anonymous" playsinline controls preload="auto" muted>
+  </video-js>
+    </div>
+</div>
 
+<div>plyr<br />
+<div class="player">
+  <video id="player-plyr" crossorigin playsinline controls preload="auto" muted>
+  </video>
+</div>
+  </div>
+
+<div>mux-video<br />
+<div class="player">
+  <mux-player src="https://d2zihajmogu5jn.cloudfront.net/advanced-fmp4/master.m3u8" metadata-video-title="mux-video" prefer-playback="mse" controls>
+  </mux-player>
+</div>
+</div>
+<script>
+  const source = {
+  type: "application/x-mpegURL",
+  src: "https://d2zihajmogu5jn.cloudfront.net/advanced-fmp4/master.m3u8"
+};
+// videojs
+const playerVideoJs = videojs("player-video-js", {
+  html5: { hls: { overrideNative: true } }
+});
+playerVideoJs.src({ ...source });
+
+// plyr
+// captions.update is required for captions to work with hls.js
+const elPlayerPlyr = document.getElementById("player-plyr");
+const playerPlyr = new Plyr(elPlayerPlyr, {
+  captions: { active: true, update: true, language: "en" }
+});
+
+if (!Hls.isSupported()) {
+  elPlayerPlyr.src = source.src;
+} else {
+  const hls = new Hls();
+  hls.loadSource(source.src);
+  hls.attachMedia(elPlayerPlyr);
+  window.hls = hls;
+  // Handle changing captions
+  playerPlyr.on("languagechange", () => {
+    // Handle changing captions (flaky), @see https://github.com/sampotts/plyr/issues/994
+    setTimeout(() => (hls.subtitleTrack = playerPlyr.currentTrack), 50);
+  });
+}
+</script>
  <script src="https://cdn.jsdelivr.net/npm/@mux/mux-player"></script>
 </body>
 </html>
