@@ -5,49 +5,17 @@
   <title>AMP test</title>
   <link rel="canonical" href="amps.html" >
   <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
-<link href="https://vjs.zencdn.net/4.12/video-js.css" rel="stylesheet">
-<script type="text/javascript" src="https://vjs.zencdn.net/4.12/video.js">
-</script>
-<!-- Include other videojs plugin files here -->
-<script src="https://src.litix.io/videojs/4/videojs-mux.js"></script>
 
 </head>
 <body>
+  
+<mux-player
+  stream-type="on-demand"
+  playback-id="EcHgOK9coz5K4rjSwOkoE7Y7O01201YMIC200RI6lNxnhs"
+  metadata-video-title="Test VOD"
+  metadata-viewer-user-id="user-id-007"
+></mux-player>
 
-
- <video id="my-player" class="video-js vjs-default-skin"  controls>
-  <!-- 
-      we're using a Mux HLS URL in this example, but the Mux Data integration
-      with HLS.js works with any source that plays with video.js
-  -->
-  <source src="https://stream.mux.com/yb2L3z3Z4IKQH02HYkf9xPToVYkOC85WA.m3u8" type="application/x-mpegURL">
-</video>
-
-<script>
-  // EITHER initialize Mux Data monitoring like this
-  videojs('my-player', {
-    plugins: {
-      mux: {
-        debug: false,
-        data: {
-          env_key: 'q5jagg02bfp2i5a115k4shijr', // required
-
-          // Metadata
-          player_name: 'test', // ex: 'My Main Player'
-
-          // ... and other metadata
-        }
-      }
-    }
-  });
-
-
-  // OR call the mux function on the player instance
-  // var player = videojs('my-player');
-  // player.mux({
-  //   debug: false,
-  //   data: { ... }
-  // });
-</script>
+ <script src="https://cdn.jsdelivr.net/npm/@mux/mux-player"></script>
 </body>
 </html>
