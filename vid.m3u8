@@ -1,0 +1,3 @@
+#EXTM3U
+#EXT-X-STREAM-INF:BANDWIDTH=375000,RESOLUTION=640x360
+https://raw.githubusercontent.com/Vinzgh25/html-video/main/hls.m3u8
