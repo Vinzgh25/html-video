@@ -7,26 +7,38 @@
     
 </head>
 <body>
-<mux-player stream-type="on-demand"
-src="https://kp3d-my.sharepoint.com/personal/ryoo_kp3d_onmicrosoft_com/_layouts/15/download.aspx?share=EXi9WDt5gUNMl5AMTZkns44BhNKiYkXFbA1K7b3WPXN3KQ" prefer-playback="mse" controls>
+<mux-player id="video" stream-type="on-demand"
+src="https://kp3d-my.sharepoint.com/personal/ryoo_kp3d_onmicrosoft_com/_layouts/15/download.aspx?share=ETCiMX8dZqlIkVrdAJdcTAkB1_pN0zcTKNqXTQxqg2c5Vg" prefer-playback="mse" controls>
 
 </mux-player>
 
 
+
+
 <script src="https://cdn.jsdelivr.net/npm/@mux/mux-player"></script>
-
- <script type="application/ld+json">
-{
-"@context": "https://schema.org/",
-"@type": "VideoObject",
-"name": "Sosok Ketiga",
-"contentUrl": "https://stream.mux.com/1UOHnrsn8bSGsbMECOa023f2ZN5Tof00J3sK1Cfou01oj8.m3u8",
-"thumbnailUrl": "https://graph.org/file/ff8dc2626a0f641732f11.jpg?width=314&fit_mode=preserve&time=25",
-"uploadDate": "2023-11-19T13:41:12Z",
-}
-
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script>
+<!-- Or if you want the latest version from the main branch -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/hls.js@canary"></script> -->
+<video id="video"></video>
+<script>
+  var video = document.getElementById('video');
+  var videoSrc = 'https://raw.githubusercontent.com/Vinzgh25/html-video/main/vid.m3u8';
+  if (Hls.isSupported()) {
+    var hls = new Hls();
+    hls.loadSource(videoSrc);
+    hls.attachMedia(video);
+  }
+  // HLS.js is not supported on platforms that do not have Media Source
+  // Extensions (MSE) enabled.
+  //
+  // When the browser has built-in HLS support (check using `canPlayType`),
+  // we can provide an HLS manifest (i.e. .m3u8 URL) directly to the video
+  // element through the `src` property. This is using the built-in support
+  // of the plain video element, without using HLS.js.
+  else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+    video.src = videoSrc;
+  }
 </script>
-
 
 </body>
 </html>
