@@ -1,44 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Footer</title>
-    
+  <head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://unpkg.com/plyr@3/dist/plyr.css">
+<link rel="stylesheet" href="./style.ccs">
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js"></script>
+<script src="https://unpkg.com/plyr@3"></script>
+<style>
+  
+.container {
+  padding-top: 18vh;
+	margin: 20px auto;
+    width: 600px;
+}
+video {
+	width: 100%;
+}
+</style>
 </head>
-<body>
-<mux-player id="video" stream-type="on-demand"
-src="https://kp3d-my.sharepoint.com/personal/ryoo_kp3d_onmicrosoft_com/_layouts/15/download.aspx?share=ETCiMX8dZqlIkVrdAJdcTAkB1_pN0zcTKNqXTQxqg2c5Vg" prefer-playback="mse" controls>
 
-</mux-player>
+<div class="container">
+  <video controls crossorigin playsinline>
+    <video id="video" src="https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8" type="application/x-mpegURL" />
+  </video>
+</div>
 
-
-
-
-<script src="https://cdn.jsdelivr.net/npm/@mux/mux-player"></script>
-<script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script>
-<!-- Or if you want the latest version from the main branch -->
-<!-- <script src="https://cdn.jsdelivr.net/npm/hls.js@canary"></script> -->
-<video id="video"></video>
 <script>
-  var video = document.getElementById('video');
-  var videoSrc = 'https://raw.githubusercontent.com/Vinzgh25/html-video/main/vid.m3u8';
-  if (Hls.isSupported()) {
-    var hls = new Hls();
-    hls.loadSource(videoSrc);
-    hls.attachMedia(video);
-  }
-  // HLS.js is not supported on platforms that do not have Media Source
-  // Extensions (MSE) enabled.
-  //
-  // When the browser has built-in HLS support (check using `canPlayType`),
-  // we can provide an HLS manifest (i.e. .m3u8 URL) directly to the video
-  // element through the `src` property. This is using the built-in support
-  // of the plain video element, without using HLS.js.
-  else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-    video.src = videoSrc;
-  }
-</script>
+  var video = document.getElementById("video");
+const url = "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8";
+const controls = [
+  "play-large", // The large play button in the center
+  "restart", // Restart playback
+  "rewind", // Rewind by the seek time (default 10 seconds)
+  "play", // Play/pause playback
+  "fast-forward", // Fast forward by the seek time (default 10 seconds)
+  "progress", // The progress bar and scrubber for playback and buffering
+  "current-time", // The current time of playback
+  "duration", // The full duration of the media
+  "mute", // Toggle mute
+  "volume", // Volume control
+  "captions", // Toggle captions
+  "settings", // Settings menu
+  "pip", // Picture-in-picture (currently Safari only)
+  "airplay", // Airplay (currently Safari only)
+  // 'download', // Show a download button with a link to either the current source or a custom URL you specify in your options
+  "fullscreen" // Toggle fullscreen
+];
+const defaultOptions = {};
+function updateQuality(newQuality) {
+  window.hls.levels.forEach((level, levelIndex) => {
+    if (level.height === newQuality) {
+      console.log("Found quality match with " + newQuality);
+      window.hls.currentLevel = levelIndex;
+    }
+  });
+}
 
+if (Hls.isSupported()) {
+  var hls = new Hls();
+  hls.loadSource(url);
+  //hls.attachMedia(video);
+  hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
+    // Transform available levels into an array of integers (height values).
+    var availableQualities = hls.levels.map((l) => l.height);
+
+    // Add new qualities to option
+    defaultOptions.quality = {
+      default: availableQualities[0],
+      options: availableQualities,
+      // this ensures Plyr to use Hls to update quality level
+      forced: true,
+      onChange: (e) => updateQuality(e)
+    };
+    controls.control = {
+      controls: [
+        "play-large",
+        "play",
+        "progress",
+        "current-time",
+        "mute",
+        "volume",
+        "captions",
+        "settings",
+        "pip",
+        "airplay",
+        "fullscreen"
+      ]
+    };
+
+    // Initialize here
+    var player = new Plyr("video", defaultOptions, controls);
+  });
+  hls.attachMedia(video);
+} else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+  video.src = url;
+  video.addEventListener("loadedmetadata", function (event, data) {
+    var player = new Plyr("video", defaultOptions, controls);
+
+    video.play();
+  });
+}
+
+</script>
 </body>
 </html>
